@@ -5,7 +5,7 @@
       <li v-for="(group,x) in list" :key="x" ref="listgroup" class="group">
         <h2 class="title">{{group.title}}</h2>
         <ul class="cnt">
-          <li v-for="(item,y) in group.items" :key="y" class="item">
+          <li @click.prevent="selectItem(item)" v-for="(item,y) in group.items" :key="y" class="item">
             <img class="avatar" v-lazy="item.avatar" :alt="item.name">
             <span class="name">{{item.name}}</span>
           </li>
@@ -93,6 +93,9 @@ export default {
     }
   },
   methods: {
+    selectItem(item) {
+      this.$emit("select", item);
+    },
     onShortCutTouchStart(e) {
       // 获取当前点击dom的data-index属性的值
       // 因为获取的值为字符串所以下面值相加会出现问题 所以这里向下取整

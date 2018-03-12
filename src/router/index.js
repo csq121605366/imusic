@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Recommend from 'components/recommend'
-import Singer from 'components/singer'
+import Singer from 'components/singer';
+import SingerDetail from 'components/singer/singer.detail'
 import Rank from 'components/rank'
 import Search from 'components/search'
 
@@ -21,7 +22,14 @@ export default new Router({
     }, {
       path: '/singer',
       name: 'singer',
-      component: Singer
+      component: Singer,
+      children: [
+        {
+          name: 'singerDetail',
+          path: ':mid',
+          component: SingerDetail
+        }
+      ]
     }, {
       path: '/rank',
       name: 'rank',
@@ -33,6 +41,7 @@ export default new Router({
     }, {
       path: '*',
       redirect: to => {
+        console.log(to)
         // 方法接收 目标路由 作为参数
         // return 重定向的 字符串路径/路径对象
         return '/';
