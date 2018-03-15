@@ -14,6 +14,9 @@ import Tab from "components/tab";
 
 export default {
   name: "App",
+  mounted() {
+    console.log(this.$store.getters.getTodoById(2));
+  },
   components: {
     MHeader,
     Tab

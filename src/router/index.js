@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Recommend from 'components/recommend'
 import Singer from 'components/singer';
-import SingerDetail from 'components/singer/singer.detail'
+import SingerDetail from 'components/singer-detail'
 import Rank from 'components/rank'
 import Search from 'components/search'
 
