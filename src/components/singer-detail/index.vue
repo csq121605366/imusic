@@ -26,6 +26,12 @@ export default {
         }
         console.log(this.$store);
       });
+    },
+    _normailzeSongs() {
+      // let ret = [];
+      // list.forEach(item => {
+      //   let { musicData } = item;
+      // });
     }
   },
   created() {
