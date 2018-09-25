@@ -1,4 +1,3 @@
-const filterSinger = Symbol('filterSinger');
 
 
 export default class Song {
@@ -12,31 +11,41 @@ export default class Song {
     image,
     url
   }) {
-    this.song = arguments[0];
+    this.id = id;
+    this.mid = mid;
+    this.singer = singer;
+    this.name = name;
+    this.album = album;
+    this.duration = duration;
+    this.image = image;
+    this.url = url;
+
   }
 
-  createSong(musicData) {
-    return new Song({
-      id: musicData.id,
-      mid: musicData.mid,
-      singer: this[filterSinger](musicData.singer),
-      name: musicData.name,
-      album: musicData.album,
-      duration: musicData.interval,
-      image: musicData.image,
-      url: musicData.url,
-    })
-  }
 
-  [filterSinger](singer) {
-    let res = [];
-    if (!singer) {
-      return ''
-    }
-    singer.forEach(i => {
-      res.push(i);
-    })
-    return res.join('/')
-  }
 
+}
+
+export function createSong(musicData) {
+  return new Song({
+    id: musicData.songid,
+    mid: musicData.songmid,
+    singer: filterSinger(musicData.singer),
+    name: musicData.songname,
+    album: musicData.albumname,
+    duration: musicData.interval,
+    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
+    url: `http://ws.stream.qqmusic.qq.com/C1000${musicData.songid}.m4a?guid=${Math.random().toString(26).slice(2,8)}`
+  })
+}
+
+
+
+function filterSinger(singer) {
+  let ret = [];
+  if (!singer) return '';
+  singer.forEach(element => {
+    ret.push(element.name);
+  });
+  return ret.join('/');
 }
