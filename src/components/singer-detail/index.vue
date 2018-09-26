@@ -1,15 +1,29 @@
 <template>
-  <transition name="slide" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
-    <div class="singer-detail"></div>
+  <transition name="slide" enter-active-class="animated fadeInRight" leave-active-class="animated bounceOutRight">
+    <music-list :songs="songs" :title="title" :bg-image="bgImage"></music-list>
   </transition>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { getSingerDetail } from "@/api/singer";
+import { createSong } from "@/api/song";
 import { ERR_OK } from "@/api/config";
+import MusicList from "components/music-list";
+
 export default {
+  data() {
+    return {
+      songs: []
+    };
+  },
   computed: {
+    title() {
+      return this.singer.name;
+    },
+    bgImage() {
+      return this.singer.avatar;
+    },
     ...mapGetters(["singer"])
   },
   methods: {
@@ -20,23 +34,28 @@ export default {
       }
       getSingerDetail(mid).then(res => {
         if (res.code === ERR_OK) {
-          console.log(res);
+          this.songs = this._normailzeSongs(res.data.list);
         } else {
           this.$router.push("/singer");
         }
-        console.log(this.$store);
       });
     },
-    _normailzeSongs() {
-
-      // let ret = [];
-      // list.forEach(item => {
-      //   let { musicData } = item;
-      // });
+    _normailzeSongs(list) {
+      let ret = [];
+      list.forEach(item => {
+        let { musicData } = item;
+        if (musicData.songid && musicData.albummid) {
+          ret.push(createSong(musicData));
+        }
+      });
+      return ret;
     }
   },
   created() {
     this._getDetail();
+  },
+  components: {
+    MusicList
   }
 };
 </script>

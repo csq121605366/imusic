@@ -29,7 +29,6 @@ export default {
       this.$router.push({
         path: `/singer/${singer.mid}`
       });
-      console.log(this.$router);
       this.setSinger(singer);
     },
     _getSingerList() {

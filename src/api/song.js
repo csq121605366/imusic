@@ -1,5 +1,3 @@
-
-
 export default class Song {
   constructor({
     id,
@@ -35,7 +33,7 @@ export function createSong(musicData) {
     album: musicData.albumname,
     duration: musicData.interval,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
-    url: `http://ws.stream.qqmusic.qq.com/C1000${musicData.songid}.m4a?guid=${Math.random().toString(26).slice(2,8)}`
+    url: `http://ws.stream.qqmusic.qq.com/C100${musicData.songmid}.m4a?guid=${Math.random().toString(26).slice(2,8)}`
   })
 }
 
