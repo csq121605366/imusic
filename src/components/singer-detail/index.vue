@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide" enter-active-class="animated fadeInRight" leave-active-class="animated bounceOutRight">
+  <transition name="slide" enter-active-class="animated fadeInRight" leave-active-class="animated fadeOutRight">
     <music-list :songs="songs" :title="title" :bg-image="bgImage"></music-list>
   </transition>
 </template>
@@ -14,27 +14,32 @@ import MusicList from "components/music-list";
 export default {
   data() {
     return {
-      songs: []
+      songs: [],
+      title: "",
+      bgImage: ""
     };
   },
   computed: {
-    title() {
-      return this.singer.name;
-    },
-    bgImage() {
-      return this.singer.avatar;
-    },
+    // title() {
+    //   return this.singer.name;
+    // },
+    // bgImage() {
+    //   return this.singer.avatar;
+    // },
     ...mapGetters(["singer"])
   },
   methods: {
     _getDetail() {
       let mid = this.singer.id;
+      console.log(this.singer,'za')
       if (!mid) {
         mid = this.$route.params.mid;
       }
       getSingerDetail(mid).then(res => {
         if (res.code === ERR_OK) {
           this.songs = this._normailzeSongs(res.data.list);
+          this.title = this.singer.name;
+          this.bgImage = this.singer.avatar;
         } else {
           this.$router.push("/singer");
         }
