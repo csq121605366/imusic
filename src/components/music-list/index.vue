@@ -14,7 +14,7 @@
     <div class="bg-layer" ref="bgLayer"></div>
     <scroll @scroll="scroll" :probe-type="probeType" :listen-scroll="listenScroll" :list="songs" class="list" ref="list">
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list @select="selectItem" :songs="songs"></song-list>
       </div>
       <div class="loading-container" v-show="!songs.length">
         <loading></loading>
@@ -28,6 +28,8 @@ import Scroll from "@/base/scroll";
 import SongList from "@/base/song-list";
 import Loading from "@/base/loading";
 import { prefixStyle } from "@/assets/js/dom";
+import { mapActions } from "vuex";
+
 const transform = prefixStyle("transform");
 const filter = prefixStyle("filter");
 const RESERVED_HEIGHT = 40;
@@ -59,7 +61,11 @@ export default {
     },
     back() {
       this.$router.back();
-    }
+    },
+    selectItem({ song, index }) {
+      this.selectPlay({ list: this.songs, index });
+    },
+    ...mapActions(["selectPlay"])
   },
   watch: {
     scrollY(newY) {
@@ -97,7 +103,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.bgImage, this.title, "=====", this);
     this.imageHeight = this.$refs.bgImage.clientHeight;
     this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT;
     this.$refs.list.$el.style.top = `${this.imageHeight}px`;

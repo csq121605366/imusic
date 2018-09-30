@@ -8,7 +8,7 @@ const mutations = {
     state.playing = flag
   },
   [types.SET_FULL_SCREEN](state, flag) {
-    state.fullScreen = flag
+    state.fullScreen = flag;
   },
   [types.SET_PLAY_LIST](state, list) {
     state.playList = list
