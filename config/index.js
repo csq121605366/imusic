@@ -18,8 +18,21 @@ module.exports = {
           host: 'c.y.qq.com'
         },
         // target: "http://ustbhuangyi.com/music",
-        pathRewrite: { "^/api/getDiscList": "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg" },
+        pathRewrite: {
+          "^/api/getDiscList": "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg"
+        },
         changeOrigin: true
+      },
+      "/douqq": {
+        target: "http://www.douqq.com",
+        headers: {
+          "Content-length": 18,
+          referer: 'http://www.douqq.com/qqmusic/',
+          host: 'www.douqq.com'
+        },
+        pathRewrite: {
+          "^/douqq/getSongUrl": "/qqmusic/qqapi.php"
+        },
       }
     },
     // Various Dev Server settings

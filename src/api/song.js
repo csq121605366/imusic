@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default class Song {
   constructor({
     id,
@@ -32,8 +34,7 @@ export function createSong(musicData) {
     name: musicData.songname,
     album: musicData.albumname,
     duration: musicData.interval,
-    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
-    url: `http://ws.stream.qqmusic.qq.com/C100${musicData.songmid}.m4a?guid=${Math.random().toString(26).slice(2,8)}`
+    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`
   })
 }
 
@@ -46,4 +47,21 @@ function filterSinger(singer) {
     ret.push(element.name);
   });
   return ret.join('/');
+}
+
+
+export function getSongUrl(mid) {
+  const url = "/douqq/getSongUrl";
+  let formData = new FormData()
+  formData.append('mid', mid);
+  console.log(formData, mid)
+  return axios.post(url, formData).then((res) => {
+    if (res && res.data) {
+      try {
+        return Promise.resolve(JSON.parse(res.data))
+      } catch (error) {
+        return ''
+      }
+    }
+  })
 }
