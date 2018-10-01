@@ -1,10 +1,10 @@
 <template>
   <div class="player" v-show="playList.length>0">
     <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
-      <div class="normal-player" v-if="fullScreen">
-        <div class="background">
-          <img :src="currentSong.image" width="100%" height="100%" alt="" />
-        </div>
+      <div class="normal-player" v-show="fullScreen">
+          <div class="background">
+            <img :src="currentSong.image" width="100%" height="100%" alt="">
+          </div>
           <div class="top">
             <div class="back" @click="playScreen">
               <div class="icon-back"></div>
@@ -15,9 +15,7 @@
           <div class="middle">
             <div class="middle-l">
               <div class="cd-wrapper" ref="cdWrapper">
-                <div class="cd">
-                  <img class="image" :src="currentSong.image" >
-              </div>
+                <div class="cd" :class="cdClass"><img class="image" :src="currentSong.image" ></div>
                 </div>
               </div>
             </div>
@@ -30,7 +28,7 @@
                   <i class="icon-prev"></i>
                 </div>
                 <div class="icon i-center">
-                  <i @click="togglePlay" :class="playIcon"></i>
+                  <i @click.stop="togglePlay" :class="playIcon"></i>
                 </div>
                 <div class="icon i-right">
                   <i class="icon-sequence"></i>
@@ -43,14 +41,18 @@
           </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player" @click="playScreen" v-if="!fullScreen">
-        <div class="icon"><img :src="currentSong.image" width="40" height="40" alt=""></div>
+      <div class="mini-player" @click="playScreen" v-show="!fullScreen">
+        <div class="icon">
+          <div class="imgWrapper">
+            <img :src="currentSong.image" :class="cdClass" width="40" height="40" alt="">
+            </div>
+          </div>
           <div class="text">
             <h2 class="name" v-html="currentSong.name"></h2>
             <p class="desc" v-html="currentSong.singer"></p>
           </div>
           <div class="control">
-            <i :class="miniPlayIcon"></i>
+            <i @click.stop="togglePlay" :class="miniPlayIcon"></i>
           </div>
           <div class="control">
             <i class="icon-playlist"></i>
@@ -75,6 +77,9 @@ export default {
     };
   },
   computed: {
+    cdClass() {
+      return this.playing ? "play" : "pause";
+    },
     playIcon() {
       return this.playing ? "icon-pause" : "icon-play";
     },
@@ -266,8 +271,8 @@ export default {
               border-radius: 50%;
               border: 10px solid rgba(255, 255, 255, 0.1);
             }
-            .play {
-              animation: rotate 20s liner infinite;
+            &.play {
+              animation: rotate 20s linear infinite;
             }
           }
         }
@@ -481,13 +486,14 @@ export default {
       }
     }
   }
-  @keyframes rotate {
-    0% {
-      transform: rotate(0);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>
