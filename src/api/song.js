@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import Qs from 'qs'
+
+
 export default class Song {
   constructor({
     id,
@@ -52,10 +55,14 @@ function filterSinger(singer) {
 
 export function getSongUrl(mid) {
   const url = "/douqq/getSongUrl";
-  let formData = new FormData()
-  formData.append('mid', mid);
-  console.log(formData, mid)
-  return axios.post(url, formData).then((res) => {
+  var data = Qs.stringify({
+    "mid": mid
+  });
+  return axios.post(url, data, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then((res) => {
     if (res && res.data) {
       try {
         return Promise.resolve(JSON.parse(res.data))

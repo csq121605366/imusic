@@ -30,7 +30,7 @@
                   <i class="icon-prev"></i>
                 </div>
                 <div class="icon i-center">
-                  <i class="icon-play"></i>
+                  <i @click="togglePlay" :class="playIcon"></i>
                 </div>
                 <div class="icon i-right">
                   <i class="icon-sequence"></i>
@@ -49,13 +49,15 @@
             <h2 class="name" v-html="currentSong.name"></h2>
             <p class="desc" v-html="currentSong.singer"></p>
           </div>
-          <div class="control"></div>
+          <div class="control">
+            <i :class="miniPlayIcon"></i>
+          </div>
           <div class="control">
             <i class="icon-playlist"></i>
           </div>
         </div>
     </transition>
-    <audio :src="songUrl" ref="audio"></audio>
+    <audio :src="songUrl" v-if="songUrl" ref="audio"></audio>
   </div>
 </template>
 
@@ -73,21 +75,43 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["fullScreen", "playList", "currentSong"])
+    playIcon() {
+      return this.playing ? "icon-pause" : "icon-play";
+    },
+    miniPlayIcon() {
+      return this.playing ? "icon-pause-mini" : "icon-play-mini";
+    },
+    ...mapGetters(["fullScreen", "playList", "currentSong", "playing"])
   },
   watch: {
     currentSong() {
-      getSongUrl(this.currentSong.mid).then(res => {
-        console.log(res);
-      });
-      this.$nextTick(() => {
-        this.$refs.audio.play();
-      });
+      getSongUrl(this.currentSong.mid).then(this.play);
+    },
+    playing(newPlaying) {
+      newPlaying ? this.play() : this.pause();
     }
   },
   methods: {
     playScreen() {
       this.setFullScreen(!this.fullScreen);
+    },
+    pause() {
+      try {
+        this.$refs.audio.pause();
+      } catch (error) {}
+    },
+    play(url) {
+      if (url) {
+        this.songUrl = url.mp3_h;
+      }
+      if (this.songUrl) {
+        this.$nextTick(() => {
+          this.$refs.audio.play();
+        });
+      }
+    },
+    togglePlay() {
+      this.setPlayingState(!this.playing);
     },
     enter(el, done) {
       const { x, y, scale } = this._getPosAndScale();
@@ -146,7 +170,8 @@ export default {
       };
     },
     ...mapMutations({
-      setFullScreen: "SET_FULL_SCREEN"
+      setFullScreen: "SET_FULL_SCREEN",
+      setPlayingState: "SET_PLAYING_STATE"
     })
   }
 };
