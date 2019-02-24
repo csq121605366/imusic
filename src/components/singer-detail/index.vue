@@ -7,7 +7,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { getSingerDetail } from "@/api/singer";
-import { createSong } from "@/api/song";
+import { createSong } from "@/assets/js/song";
 import { ERR_OK } from "@/api/config";
 import MusicList from "components/music-list";
 
@@ -31,7 +31,6 @@ export default {
   methods: {
     _getDetail() {
       let mid = this.singer.id;
-      console.log(this.singer,'za')
       if (!mid) {
         mid = this.$route.params.mid;
       }

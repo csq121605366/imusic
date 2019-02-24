@@ -93,6 +93,9 @@ export default {
     }
   },
   methods: {
+    refresh() {
+      this.$refs.listview.refresh();
+    },
     selectItem(item) {
       this.$emit("select", item);
     },
@@ -156,80 +159,80 @@ export default {
 @import "~assets/less/variable.less";
 
 .listview {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: @color-background;
-  .group {
-    padding-bottom: 30px;
-    .title {
-      height: 30px;
-      line-height: 30px;
-      padding-left: 20px;
-      font-size: @font-size-small;
-      color: @color-text-l;
-      background-color: @color-highlight-background;
-    }
-    .item {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      padding: 10px 0;
-      .avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        flex: 0 1 auto;
-      }
-      .name {
-        margin-left: 20px;
-        color: @color-text-l;
-        font-size: @font-size-medium;
-      }
-    }
-  }
-  .shoutcut {
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    padding: 10px 0;
-    border-radius: 10px;
-    text-align: center;
-    background-color: @color-background-d;
-    font-family: Helvetica;
-    .item {
-      padding: 3px;
-      line-height: 1;
-      color: @color-text-l;
-      font-size: @font-size-small;
-      &.active {
-        color: @color-theme;
-      }
-    }
-  }
-  .list-fixed {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    .fixed-title {
-      height: 30px;
-      line-height: 30px;
-      padding-left: 20px;
-      font-size: @font-size-small;
-      color: @color-text-l;
-      background-color: @color-highlight-background;
+    height: 100%;
+    overflow: hidden;
+    background-color: @color-background;
+    .group {
+        padding-bottom: 30px;
+        .title {
+            height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+            font-size: @font-size-small;
+            color: @color-text-l;
+            background-color: @color-highlight-background;
+        }
+        .item {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            padding: 10px 0;
+            .avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                flex: 0 1 auto;
+            }
+            .name {
+                margin-left: 20px;
+                color: @color-text-l;
+                font-size: @font-size-medium;
+            }
+        }
     }
-  }
-  .loading-container {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+    .shoutcut {
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        padding: 10px 0;
+        border-radius: 10px;
+        text-align: center;
+        background-color: @color-background-d;
+        font-family: Helvetica;
+        .item {
+            padding: 3px;
+            line-height: 1;
+            color: @color-text-l;
+            font-size: @font-size-small;
+            &.active {
+                color: @color-theme;
+            }
+        }
+    }
+    .list-fixed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        .fixed-title {
+            height: 30px;
+            line-height: 30px;
+            padding-left: 20px;
+            font-size: @font-size-small;
+            color: @color-text-l;
+            background-color: @color-highlight-background;
+        }
+    }
+    .loading-container {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 </style>

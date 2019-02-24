@@ -1,74 +1,48 @@
 import axios from 'axios'
-
+import jsonp from 'assets/js/jsonp';
+import {
+  commonParams,
+  options
+} from './config';
 import Qs from 'qs'
 
 
-export default class Song {
-  constructor({
-    id,
-    mid,
-    singer,
-    name,
-    album,
-    duration,
-    image,
-    url
-  }) {
-    this.id = id;
-    this.mid = mid;
-    this.singer = singer;
-    this.name = name;
-    this.album = album;
-    this.duration = duration;
-    this.image = image;
-    this.url = url;
-
-  }
-
-
-
-}
-
-export function createSong(musicData) {
-  return new Song({
-    id: musicData.songid,
-    mid: musicData.songmid,
-    singer: filterSinger(musicData.singer),
-    name: musicData.songname,
-    album: musicData.albumname,
-    duration: musicData.interval,
-    image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`
-  })
-}
-
-
-
-function filterSinger(singer) {
-  let ret = [];
-  if (!singer) return '';
-  singer.forEach(element => {
-    ret.push(element.name);
-  });
-  return ret.join('/');
-}
 
 
 export function getSongUrl(mid) {
-  const url = "/douqq/getSongUrl";
-  var data = Qs.stringify({
-    "mid": mid
-  });
-  return axios.post(url, data, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  }).then((res) => {
-    if (res && res.data) {
-      try {
-        return Promise.resolve(JSON.parse(res.data))
-      } catch (error) {
-        return ''
+  return new Promise((resolve, reject) => {
+    const url = "/douqq/getSongUrl";
+    var data = Qs.stringify({
+      "mid": mid
+    });
+    return axios.post(url, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-    }
+    }).then((res) => {
+      if (res && res.data) {
+        try {
+          return resolve(JSON.parse(res.data))
+        } catch (error) {
+          return reject([])
+        }
+      }
+    }).catch(error => {
+      return reject([])
+    })
   })
+}
+
+export function getLyric(mid) {
+  const url = '/api/lyric';
+  const data = Object.assign({}, commonParams, {
+    songmid: mid,
+    pcachetime: +Date.now(),
+    platform: "yqq",
+    hostUin: 0,
+    needNewCode: 0,
+    g_tk: 67232076,
+    formate: "json"
+  })
+  return jsonp(url, data, options);
 }

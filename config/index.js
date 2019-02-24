@@ -19,7 +19,9 @@ module.exports = {
         },
         // target: "http://ustbhuangyi.com/music",
         pathRewrite: {
-          "^/api/getDiscList": "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg"
+          "^/api/getDiscList": "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg",
+          "^/api/lyric": "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg",
+          "^/api/getDisc": "https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg"
         },
         changeOrigin: true
       },
@@ -56,6 +58,7 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
+    // devtool: 'cheap-module-eval-source-map',
     devtool: 'cheap-module-eval-source-map',
 
     // If you have problems debugging vue-files in devtools,

@@ -1,5 +1,8 @@
 import jsonp from 'assets/js/jsonp'
-import { commonParams, options } from './config'
+import {
+  commonParams,
+  options
+} from './config'
 import axios from 'axios'
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -27,6 +30,29 @@ export function getDiscList() {
     categoryId: 10000000,
     rnd: Math.random(),
     format: 'json'
+  })
+
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
+
+export function getDisc(disstid) {
+  let url = `/api/getDisc`;
+  const data = Object.assign({}, commonParams, {
+    type: 1,
+    json: 1,
+    utf8: 1,
+    onlysong: 0,
+    // jsonpCallback: 'playlistinfoCallback',
+    loginUin: 0,
+    hostUin: 0,
+    needNewCode: 0,
+    format: 'json'
+  }, {
+    disstid
   })
 
   return axios.get(url, {
